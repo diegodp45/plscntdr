@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contadores Galácticos</title>
+    <style>
+        /* Fondo galáctico */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background: url('https://source.unsplash.com/1600x900/?galaxy,stars') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        /* Contenedor principal */
+        .contenedor {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+
+        /* Estilo de cada contador */
+        .contador-box {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.2);
+            width: 220px;
+        }
+
+        /* Texto del contador */
+        .contador {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .verde { color: #4CAF50; } /* Verde */
+        .rojo { color: #FF5733; }  /* Rojo */
+
+        /* Botones */
+        .boton {
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            background: #007bff;
+            padding: 8px 12px;
+            border-radius: 5px;
+            margin: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .boton:hover { background: #0056b3; }
+
+        .boton.restar { background: #dc3545; }
+        .boton.restar:hover { background: #b52b3a; }
+
+        .boton.reset { background: #ffa500; }
+        .boton.reset:hover { background: #cc8400; }
+    </style>
+</head>
+<body>
+
+    <h1>🌌 Contadores Galácticos 🚀</h1>
+
+    <div class="contenedor">
+        <!-- Contador 1 -->
+        <div class="contador-box">
+            <p class="contador verde" id="contador1">0/100</p>
+            <button class="boton" onclick="incrementar(1)">➕ Aumentar</button>
+            <button class="boton restar" onclick="restar(1)">➖ Restar</button>
+            <button class="boton reset" onclick="reiniciar(1)">🔄 Reset</button>
+        </div>
+
+        <!-- Contador 2 -->
+        <div class="contador-box">
+            <p class="contador rojo" id="contador2">0/100</p>
+            <button class="boton" onclick="incrementar(2)">➕ Aumentar</button>
+            <button class="boton restar" onclick="restar(2)">➖ Restar</button>
+            <button class="boton reset" onclick="reiniciar(2)">🔄 Reset</button>
+        </div>
+
+        <!-- Contador 3 -->
+        <div class="contador-box">
+            <p class="contador verde" id="contador3">0/100</p>
+            <button class="boton" onclick="incrementar(3)">➕ Aumentar</button>
+            <button class="boton restar" onclick="restar(3)">➖ Restar</button>
+            <button class="boton reset" onclick="reiniciar(3)">🔄 Reset</button>
+        </div>
+    </div>
+
+    <script>
+        // Función para obtener valores almacenados
+        function obtenerValor(id) {
+            return localStorage.getItem(`contador${id}`) ? parseInt(localStorage.getItem(`contador${id}`)) : 0;
+        }
+
+        // Inicializar los contadores con valores guardados
+        let cuenta1 = obtenerValor(1);
+        let cuenta2 = obtenerValor(2);
+        let cuenta3 = obtenerValor(3);
+
+        // Limite máximo
+        const limite = 100;
+
+        // Mostrar los valores almacenados
+        document.getElementById("contador1").innerText = `${cuenta1}/${limite}`;
+        document.getElementById("contador2").innerText = `${cuenta2}/${limite}`;
+        document.getElementById("contador3").innerText = `${cuenta3}/${limite}`;
+
+        // Función para aumentar el contador
+        function incrementar(id) {
+            let cuenta = obtenerValor(id);
+            if (cuenta < limite) {
+                cuenta++;
+                localStorage.setItem(`contador${id}`, cuenta);
+                document.getElementById(`contador${id}`).innerText = `${cuenta}/${limite}`;
+            }
+        }
+
+        // Función para restar
+        function restar(id) {
+            let cuenta = obtenerValor(id);
+            if (cuenta > 0) {
+                cuenta--;
+                localStorage.setItem(`contador${id}`, cuenta);
+                document.getElementById(`contador${id}`).innerText = `${cuenta}/${limite}`;
+            }
+        }
+
+        // Función para resetear
+        function reiniciar(id) {
+            localStorage.setItem(`contador${id}`, 0);
+            document.getElementById(`contador${id}`).innerText = `0/${limite}`;
+        }
+    </script>
+
+</body>
+</html>
